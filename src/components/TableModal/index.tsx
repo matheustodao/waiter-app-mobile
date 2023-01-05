@@ -26,7 +26,7 @@ export function TableModal() {
             />
 
             <Button onPress={() => alert('Salvou')}>
-              Salvou
+              Salvar
             </Button>
           </ModalForm>
         </ModalBody>
