@@ -9,13 +9,25 @@ import { TableModal } from '../components/TableModal';
 import { CartItem } from '../types/CartItem';
 import { ProductParams } from '../types/Product';
 
-import { Container, CategoryContainer, MenuContainer, FooterContainer, Footer, CenteredContainer } from './styles';
+import {
+  Container,
+  CategoryContainer,
+  MenuContainer,
+  FooterContainer,
+  Footer,
+  CenteredContainer,
+} from './styles';
+
+import { products as mockProducts } from '../mocks/products';
+import { Empty } from '../components/Icons/Empty';
+import { Text } from '../components/Text';
 
 export function Main() {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState('');
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isLoading] = useState(false);
+  const [products] = useState<ProductParams[]>([]);
 
   function handleOpenTableModal() {
     setIsTableModalVisible(true);
@@ -108,9 +120,19 @@ export function Main() {
               <Categories />
             </CategoryContainer>
 
-            <MenuContainer>
-              <Menu onAddToCart={handleAddToCart} />
-            </MenuContainer>
+            {products.length > 0
+              ? (
+                <MenuContainer>
+                  <Menu onAddToCart={handleAddToCart} products={products} />
+                </MenuContainer>
+              )
+              : (
+                <CenteredContainer>
+                  <Empty />
+                  <Text color="#666" style={{ marginTop: 34 }}>Nenhum produto foi encontrado!</Text>
+                </CenteredContainer>
+              )
+            }
           </>
         )}
       </Container>
@@ -118,7 +140,7 @@ export function Main() {
       <FooterContainer>
         <Footer>
           {!selectedTable && (
-            <Button onPress={handleOpenTableModal} disabled={isLoading}>
+            <Button onPress={handleOpenTableModal} disabled={isLoading || !products.length}>
               Novo Pedido
             </Button>
           )}
