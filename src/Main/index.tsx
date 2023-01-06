@@ -84,6 +84,11 @@ export function Main() {
     });
   }
 
+  function handleResetOrder() {
+    setSelectedTable('');
+    setCartItems([]);
+  }
+
   return (
     <>
       <Container>
@@ -111,6 +116,7 @@ export function Main() {
               cartItems={cartItems}
               onMinusItem={handleMinusItemToCart}
               onPlusItem={handleAddToCart}
+              onConfirmOrder={handleResetOrder}
             />
           )}
         </Footer>
