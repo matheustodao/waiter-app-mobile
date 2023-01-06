@@ -21,6 +21,7 @@ import {
 import { products as mockProducts } from '../mocks/products';
 import { Empty } from '../components/Icons/Empty';
 import { Text } from '../components/Text';
+import { CategoryParams } from '../types/Category';
 
 export function Main() {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
@@ -28,6 +29,7 @@ export function Main() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isLoading] = useState(false);
   const [products] = useState<ProductParams[]>([]);
+  const [categories] = useState<CategoryParams[]>([]);
 
   function handleOpenTableModal() {
     setIsTableModalVisible(true);
@@ -116,9 +118,11 @@ export function Main() {
 
         {!isLoading && (
           <>
-            <CategoryContainer>
-              <Categories />
-            </CategoryContainer>
+            {categories.length > 0 && (
+              <CategoryContainer>
+                <Categories categories={categories} />
+              </CategoryContainer>
+            )}
 
             {products.length > 0
               ? (
