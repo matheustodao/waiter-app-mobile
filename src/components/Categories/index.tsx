@@ -5,16 +5,17 @@ import { Text } from '../Text';
 import { Category, Icon } from './styles';
 
 interface CategoriesProps {
-  categories: CategoryParams[]
+  categories: CategoryParams[];
+  onSelectCategory: (categoryId: string) => Promise<void>
 }
 
-export function Categories({ categories }: CategoriesProps) {
+export function Categories({ categories, onSelectCategory }: CategoriesProps) {
   const [selectedCategory, setSelectedCategory] = useState('');
 
   function handleSelectCategory(categoryId: string) {
-    setSelectedCategory((oldId) => (
-      oldId === categoryId ? '' : categoryId
-    ));
+    const category = selectedCategory === categoryId ? '' : categoryId;
+    setSelectedCategory(category);
+    onSelectCategory(category);
   }
 
   return (

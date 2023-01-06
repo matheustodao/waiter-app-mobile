@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native';
+import { API_URL } from '../../configs/env';
+import { waiterAPI } from '../../services/api/waiterAPI';
 import { CartItem } from '../../types/CartItem';
 import { ProductParams } from '../../types/Product';
 import { formatCurrency } from '../../utils/formatCurrency';
@@ -16,15 +18,28 @@ interface CartProps {
   onMinusItem: (productId: string) => void;
   onPlusItem: (product: ProductParams) => void;
   onConfirmOrder: () => void;
+  selectedTable: string,
 }
 
-export function Cart({ cartItems, onPlusItem, onMinusItem, onConfirmOrder }: CartProps) {
-  const [isLoading] = useState(true);
+export function Cart({ cartItems, onPlusItem, onMinusItem, onConfirmOrder, selectedTable }: CartProps) {
+  const [isLoading, setIsLoading] = useState(false);
   const [isOrderConfirmModalVisible, setIsOrderConfirmModalVisible] = useState(false);
   const total = cartItems.reduce((acc, cartItem) => (acc + (cartItem.product.price * cartItem.quantity)), 0);
 
-  function handleConfirmOrder() {
+  async function handleConfirmOrder() {
     setIsOrderConfirmModalVisible(true);
+    setIsLoading(true);
+
+    const payload = {
+      table: selectedTable,
+      products: cartItems.map((currentItem) => ({
+        product: currentItem.product._id,
+        quantity: currentItem.quantity,
+      }))
+    };
+
+    await waiterAPI.post('/orders', payload);
+    setIsLoading(false);
   }
 
   function handleOk() {
@@ -49,7 +64,7 @@ export function Cart({ cartItems, onPlusItem, onMinusItem, onConfirmOrder }: Car
             <Item>
               <ProductContainer>
                 <Image
-                  source={{ uri: `http://192.168.15.133:3001/uploads/${cartItem.product.imagePath}` }}
+                  source={{ uri: `${API_URL}/uploads/${cartItem.product.imagePath}` }}
                 />
 
                 <QuantityContainer>
