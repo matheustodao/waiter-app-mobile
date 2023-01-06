@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FlatList } from 'react-native';
+import { API_URL } from '../../configs/env';
 import { ProductParams } from '../../types/Product';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { PlusCircle } from '../Icons/PlusCircle';
@@ -44,13 +45,13 @@ export function Menu({ onAddToCart, products }: MenuProps) {
       <FlatList
         data={products}
         style={{ marginTop: 32 }}
-        contentContainerStyle={{ paddingHorizontal: 24 }}
+        contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 8 }}
         keyExtractor={(product) => product._id}
         ItemSeparatorComponent={Separator}
         renderItem={({ item: product }) => (
           <Product onPress={() => handleOpenModal(product)}>
             <ProductImage
-              source={{ uri: `http://192.168.15.133:3001/uploads/${product.imagePath}` }}
+              source={{ uri: `${API_URL}/uploads/${product.imagePath}` }}
             />
 
             <ProductDetails>
