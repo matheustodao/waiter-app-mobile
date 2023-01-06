@@ -29,10 +29,59 @@ export function Main() {
 
   function handleCancelTable() {
     setSelectedTable('');
+    setCartItems([]);
   }
 
   function handleAddToCart(product: ProductParams) {
-    setCartItems((oldItems) => ([...oldItems, { product, quantity: 1 }]));
+    if (!selectedTable) {
+      setIsTableModalVisible(true);
+    }
+
+    setCartItems((oldItems) => {
+      const itemIndex = oldItems.findIndex((item) => item.product._id === product._id);
+
+      if (itemIndex < 0) {
+        return oldItems.concat({
+          product,
+          quantity: 1
+        });
+      }
+
+      const newItems = [...oldItems];
+      const currentItem = oldItems[itemIndex];
+
+      newItems[itemIndex] = {
+        ...currentItem,
+        quantity: currentItem.quantity + 1
+      };
+
+      return newItems;
+    });
+  }
+
+  function handleMinusItemToCart(productId: string) {
+    setCartItems((oldItems) => {
+      const itemIndex = oldItems.findIndex((item) => item.product._id === productId);
+
+      if (itemIndex < 0) {
+        return oldItems;
+      }
+
+      const newItems = [...oldItems];
+      const currentItem = oldItems[itemIndex];
+
+      if (currentItem.quantity === 1) {
+        const deletedCurrentItemOnCart = oldItems.splice(itemIndex, 0);
+        return deletedCurrentItemOnCart;
+      }
+
+      newItems[itemIndex] = {
+        ...currentItem,
+        quantity: currentItem.quantity - 1
+      };
+
+      return newItems;
+    });
   }
 
   return (
@@ -57,7 +106,13 @@ export function Main() {
             </Button>
           )}
 
-          {selectedTable && <Cart cartItems={cartItems} />}
+          {selectedTable && (
+            <Cart
+              cartItems={cartItems}
+              onMinusItem={handleMinusItemToCart}
+              onPlusItem={handleAddToCart}
+            />
+          )}
         </Footer>
 
         <TableModal
