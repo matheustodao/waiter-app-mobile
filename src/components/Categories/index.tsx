@@ -36,7 +36,7 @@ export function Categories({ categories }: CategoriesProps) {
                 </Text>
               </Icon>
 
-              <Text size={14} weight="600" opacity={isSelected ? 1 : 0.5}>
+              <Text size={14} weight="600" opacity={isSelected ? 1 : 0.5} style={{ textTransform: 'capitalize' }}>
                 {category.name}
               </Text>
             </Category>
