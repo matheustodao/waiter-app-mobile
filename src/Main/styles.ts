@@ -26,3 +26,9 @@ export const Footer = styled.View`
   background: #ffffff;
   padding: 16px 24px;
 `;
+
+export const CenteredContainer = styled.View`
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+`;
