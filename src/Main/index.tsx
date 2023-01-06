@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { ActivityIndicator } from 'react-native';
 import { Button } from '../components/Button';
 import { Cart } from '../components/Cart';
@@ -8,6 +9,9 @@ import { Menu } from '../components/Menu';
 import { TableModal } from '../components/TableModal';
 import { CartItem } from '../types/CartItem';
 import { ProductParams } from '../types/Product';
+import { Empty } from '../components/Icons/Empty';
+import { Text } from '../components/Text';
+import { CategoryParams } from '../types/Category';
 
 import {
   Container,
@@ -17,11 +21,6 @@ import {
   Footer,
   CenteredContainer,
 } from './styles';
-
-import { products as mockProducts } from '../mocks/products';
-import { Empty } from '../components/Icons/Empty';
-import { Text } from '../components/Text';
-import { CategoryParams } from '../types/Category';
 
 export function Main() {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
