@@ -130,9 +130,6 @@ export function Main() {
       .then(([categoriesResponse, productsResponse]) => {
         setCategories(categoriesResponse.data);
         setProducts(productsResponse.data);
-
-
-        console.log(productsResponse.data);
       })
       .finally(() => {
         setIsLoading(false);
